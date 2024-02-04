@@ -1,6 +1,14 @@
 import axios from "axios";
 
-axios.defaults.baseURL = 'https://65bc9c5ab51f9b29e931da46.mockapi.io/api';
+axios.defaults.baseURL = 'https://goit-task-manager.herokuapp.com';
+
+export const setAuthHeader = token => {
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+}
+
+export const clearAuthHeader = () => {
+  axios.defaults.headers.common.Authorization = '';
+}
 
 export const requestContacts = async () => {
   const { data } = await axios.get('/contacts');
@@ -13,5 +21,20 @@ export const requestAddContact = async contact => {
 };
 export const requestDeleteContact = async contactId => {
   const { data } = await axios.delete(`/contacts/${contactId}`);
+  return data;
+}
+
+export const requestRegisterUser = async credentials => {
+  const { data } = await axios.post('/users/signup', credentials);
+  return data;
+}
+
+export const requestLoginUser = async credentials => {
+  const { data } = await axios.post('/users/login', credentials);
+  return data;
+}
+
+export const requestLogoutUser = async credentials => {
+  const { data } = await axios.post('/users/logout');
   return data;
 }
