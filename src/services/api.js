@@ -34,7 +34,12 @@ export const requestLoginUser = async credentials => {
   return data;
 }
 
-export const requestLogoutUser = async credentials => {
+export const requestLogoutUser = async () => {
   const { data } = await axios.post('/users/logout');
+  return data;
+}
+
+export const requestRefreshUser = async () => {
+  const { data } = await axios.get('/users/current');
   return data;
 }
