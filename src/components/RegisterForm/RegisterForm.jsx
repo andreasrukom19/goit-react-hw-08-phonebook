@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../../redux/auth/operations';
 import css from './RegisterForm.module.css';
+import { toast } from 'react-toastify';
 
 export const RegisterForm = () => {
   const dispatch = useDispatch();
@@ -14,8 +15,15 @@ export const RegisterForm = () => {
       email: form.elements.email.value,
       password: form.elements.password.value,
     };
-    dispatch(registerUser(formData));
-    form.reset();
+    dispatch(registerUser(formData))
+      .unwrap()
+      .then(() => {
+        toast(`${formData.name} successfully registered!`);
+        form.reset();
+      })
+      .catch(error => {
+        toast(error.message);
+      });
   };
 
   return (
