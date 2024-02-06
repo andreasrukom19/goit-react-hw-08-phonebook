@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = 'https://goit-task-manager.herokuapp.com';
+axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
 export const setAuthHeader = token => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -19,6 +19,7 @@ export const requestAddContact = async contact => {
   const { data } = await axios.post('/contacts', contact);
   return data;
 };
+
 export const requestDeleteContact = async contactId => {
   const { data } = await axios.delete(`/contacts/${contactId}`);
   return data;
