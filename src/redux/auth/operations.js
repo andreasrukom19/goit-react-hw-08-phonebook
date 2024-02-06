@@ -14,6 +14,7 @@ export const registerUser = createAsyncThunk(
     try {
       const response = await requestRegisterUser(formData);
       setAuthHeader(response.token);
+      return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -26,6 +27,7 @@ export const loginUser = createAsyncThunk(
     try {
       const response = await requestLoginUser(formData);
       setAuthHeader(response.token);
+      return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -38,6 +40,7 @@ export const logoutUser = createAsyncThunk(
     try {
       requestLogoutUser();
       clearAuthHeader();
+      return;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
