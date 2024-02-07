@@ -1,11 +1,13 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../redux/auth/operations';
 import css from './RegisterForm.module.css';
 import { toast } from 'react-toastify';
+import { selectIsLoading } from '../../redux/auth/selectors';
 
 export const RegisterForm = () => {
   const dispatch = useDispatch();
+  const isLoading = useSelector(selectIsLoading);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -22,7 +24,7 @@ export const RegisterForm = () => {
         form.reset();
       })
       .catch(error => {
-        toast(error.message);
+        toast(`The user ${formData.name} could not be registered: ${error}`);
       });
   };
 
@@ -30,17 +32,24 @@ export const RegisterForm = () => {
     <form className={css.form} onSubmit={handleSubmit} autoComplete="off">
       <label className={css.label}>
         <span>Username</span>
-        <input type="text" name="name" />
+        <input type="text" name="name" placeholder="Enter user name" required />
       </label>
       <label className={css.label}>
         <span>Email</span>
-        <input type="email" name="email" />
+        <input
+          type="email"
+          name="email"
+          placeholder="user@example.com"
+          required
+        />
       </label>
       <label className={css.label}>
         <span>Password</span>
-        <input type="password" name="password" />
+        <input type="password" name="password" required />
       </label>
-      <button type="submit">Register</button>
+      <button type="submit" disabled={isLoading}>
+        Register
+      </button>
     </form>
   );
 };
