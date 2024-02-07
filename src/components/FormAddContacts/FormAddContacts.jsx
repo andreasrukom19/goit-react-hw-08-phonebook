@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../redux/contacts/operations';
 import { selectContactsItems } from '../../redux/contacts/selectors';
 import css from './FormAddContacts.module.css';
+import { toast } from 'react-toastify';
 
 export const FormAddContacts = () => {
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [number, setNumber] = useState('');
   const dispatch = useDispatch();
   const contacts = useSelector(selectContactsItems);
 
@@ -16,7 +16,7 @@ export const FormAddContacts = () => {
   };
 
   const handleChangePhone = event => {
-    setPhone(event.target.value);
+    setNumber(event.target.value);
   };
 
   const handleSubmit = event => {
@@ -26,21 +26,21 @@ export const FormAddContacts = () => {
     );
     if (!hasDuplicateName) {
       const contactData = {
-        id: nanoid(),
         name,
-        phone,
+        number,
       };
       const action = addContact(contactData);
       dispatch(action);
+      toast.success(`Contact ${name} successfully added`);
       resetForm();
     } else {
-      alert('A contact with this name already exists!');
+      toast.warning('A contact with this name already exists!');
     }
   };
 
   const resetForm = () => {
     setName('');
-    setPhone('');
+    setNumber('');
   };
 
   return (
@@ -54,7 +54,6 @@ export const FormAddContacts = () => {
           value={name}
           onChange={handleChangeName}
           placeholder="Enter name"
-          id={nanoid()}
           required
         />
       </label>
@@ -64,7 +63,7 @@ export const FormAddContacts = () => {
           className={css['contact-form-input']}
           type="tel"
           name="phone"
-          value={phone}
+          value={number}
           onChange={handleChangePhone}
           placeholder="000-00-00"
           required

@@ -1,11 +1,11 @@
 import css from './ContactListItem.module.css';
 
 export const ContactListItem = ({ contact, handleDeleteContact }) => {
-  const { id, name, phone } = contact;
+  const { id, name, number } = contact;
   return (
     <li className={css['contact-list-item']}>
       <span>{name}:</span>
-      <span>{phone}</span>
+      <span>{number}</span>
       <button
         type="button"
         onClick={() => handleDeleteContact(id)}

@@ -11,7 +11,11 @@ export const UserMenu = () => {
   return (
     <div className={css.container}>
       <p className={css.username}>Welcome, {user.name}</p>
-      <button type="button" onClick={() => dispatch(logoutUser())}>
+      <button
+        className={css['logout-btn']}
+        type="button"
+        onClick={() => dispatch(logoutUser())}
+      >
         Logout
       </button>
     </div>
