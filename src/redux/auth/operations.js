@@ -1,20 +1,25 @@
+import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  clearAuthHeader,
-  requestLoginUser,
-  requestLogoutUser,
-  requestRefreshUser,
-  requestRegisterUser,
-  setAuthHeader
-} from "services/api";
+
+export const $authInstance = axios.create({
+  baseURL: 'https://connections-api.herokuapp.com',
+})
+
+const setAuthHeader = token => {
+  $authInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
+}
+
+const clearAuthHeader = () => {
+  $authInstance.defaults.headers.common.Authorization = '';
+}
 
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
   async (formData, thunkAPI) => {
     try {
-      const response = await requestRegisterUser(formData);
-      setAuthHeader(response.token);
-      return response;
+      const response = await $authInstance.post('/users/signup', formData);
+      setAuthHeader(response.data.token);
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -25,9 +30,9 @@ export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async (formData, thunkAPI) => {
     try {
-      const response = await requestLoginUser(formData);
-      setAuthHeader(response.token);
-      return response;
+      const response = await $authInstance.post('/users/login', formData);
+      setAuthHeader(response.data.token);
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -38,9 +43,8 @@ export const logoutUser = createAsyncThunk(
   'auth/logoutUser',
   async (_, thunkAPI) => {
     try {
-      requestLogoutUser();
+      await $authInstance.post('/users/logout');
       clearAuthHeader();
-      return;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -55,8 +59,8 @@ export const refreshUser = createAsyncThunk(
     if (!token) return thunkAPI.rejectWithValue("You don't have a token!");
     try {
       setAuthHeader(token);
-      const response = await requestRefreshUser();
-      return response;
+      const response = await $authInstance.get('/users/current');
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

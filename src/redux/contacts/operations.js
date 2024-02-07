@@ -1,12 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { requestContacts, requestAddContact, requestDeleteContact } from "services/api";
+
+import { $authInstance } from "../../redux/auth/operations";
 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
   async (_, thunkAPI) => {
     try {
-      const contacts = await requestContacts();
-      return contacts;
+      const response = await $authInstance.get('/contacts');
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -17,8 +18,8 @@ export const addContact = createAsyncThunk(
   'contacts/addContact',
   async (contact, thunkAPI) => {
     try {
-      const contactItem = await requestAddContact(contact);
-      return contactItem;
+      const response = await $authInstance.post('/contacts', contact);
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -29,8 +30,8 @@ export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
   async (contactId, thunkAPI) => {
     try {
-      const contactItem = await requestDeleteContact(contactId);
-      return contactItem;
+      const response = await $authInstance.delete(`/contacts/${contactId}`);
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

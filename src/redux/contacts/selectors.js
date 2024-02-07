@@ -9,7 +9,7 @@ export const selectContactsFilter = createSelector(selectContacts, store => stor
 export const selectFilteredContacts = createSelector(
   [selectContactsItems, selectContactsFilter],
   (contacts, filter) => {
-    return contacts.filter(contact => {
+    return contacts?.filter(contact => {
       return contact.name.toLowerCase().includes(filter.trim().toLowerCase());
     })
   }

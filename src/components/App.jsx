@@ -5,7 +5,7 @@ import { refreshUser } from '../redux/auth/operations';
 import { Route, Routes } from 'react-router-dom';
 import { Layout } from './Layout';
 import { RestrictedRout } from './RestrictedRout';
-import { PrivatRout } from './PrivatRout';
+import { PrivatRoute } from './PrivatRoute';
 
 const HomePage = lazy(() => import('../pages/Home'));
 const RegisterPage = lazy(() => import('../pages/Register'));
@@ -44,7 +44,7 @@ export const App = () => {
         <Route
           path="/contacts"
           element={
-            <PrivatRout redirectTo="/login" component={<ContactsPage />} />
+            <PrivatRoute redirectTo="/login" component={<ContactsPage />} />
           }
         />
       </Route>
