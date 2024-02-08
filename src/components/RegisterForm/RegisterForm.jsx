@@ -32,7 +32,7 @@ export const RegisterForm = () => {
     <form className={css.form} onSubmit={handleSubmit} autoComplete="off">
       <label className={css.label}>
         <span>Username</span>
-        <input type="text" name="name" placeholder="Enter user name" required />
+        <input type="text" name="name" placeholder="John Smith" required />
       </label>
       <label className={css.label}>
         <span>Email</span>
