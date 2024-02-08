@@ -4,7 +4,7 @@ import css from './Loader.module.css';
 
 export const Loader = () => {
   return (
-    <div className={css.wrapper}>
+    <div className={css['load-box']}>
       <RotatingLines
         visible={true}
         height="96"
