@@ -6,6 +6,7 @@ import { Route, Routes } from 'react-router-dom';
 import { Layout } from './Layout';
 import { RestrictedRout } from './RestrictedRout';
 import { PrivatRoute } from './PrivatRoute';
+import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 
 const HomePage = lazy(() => import('../pages/Home'));
 const RegisterPage = lazy(() => import('../pages/Register'));
@@ -47,6 +48,7 @@ export const App = () => {
             <PrivatRoute redirectTo="/login" component={<ContactsPage />} />
           }
         />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );
